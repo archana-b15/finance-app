@@ -9,9 +9,12 @@ export default function App() {
   const [amount, setAmount] = useState('');
   const [history, setHistory] = useState([]);
 
+  // 🔴 PASTE YOUR RENDER LINK HERE 🔴
+  const API_URL = "https://finance-backend-xxxx.onrender.com"; 
+
   const fetchHistory = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/transactions/${id}`);
+      const res = await fetch(`${API_URL}/api/transactions/${id}`);
       const data = await res.json();
       setHistory(data);
     } catch (err) { console.error("Error fetching data"); }
@@ -20,7 +23,7 @@ export default function App() {
   async function handleAction(type) {
     const endpoint = type === 'login' ? 'login' : 'register';
     try {
-      const res = await fetch(`http://localhost:5000/api/${endpoint}`, {
+      const res = await fetch(`${API_URL}/api/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -33,12 +36,12 @@ export default function App() {
       } else if (data.status === 'ok' && type === 'register') {
         alert("Account Created! Now click Login.");
       } else { alert("Failed. Try again."); }
-    } catch (err) { alert("Backend is not running! Check your terminal."); }
+    } catch (err) { alert("Backend is connecting... please wait a moment."); }
   }
 
   async function addTransaction(e) {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/transactions', {
+    await fetch(`${API_URL}/api/transactions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, amount: Number(amount), userId }),
@@ -48,7 +51,7 @@ export default function App() {
   }
 
   async function deleteTransaction(id) {
-    await fetch(`http://localhost:5000/api/transactions/${id}`, { method: 'DELETE' });
+    await fetch(`${API_URL}/api/transactions/${id}`, { method: 'DELETE' });
     fetchHistory(userId);
   }
 
@@ -68,7 +71,7 @@ export default function App() {
       </form>
       {history.map((h) => (
         <div key={h._id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: '#fff', marginBottom: '5px', borderRadius: '8px', borderLeft: `5px solid ${h.amount >= 0 ? '#27ae60' : '#e74c3c'}` }}>
-          <span>{h.text} (${h.amount})</span>
+          <span>{h.text} (₹{h.amount})</span>
           <button onClick={() => deleteTransaction(h._id)} style={{ background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Delete</button>
         </div>
       ))}
