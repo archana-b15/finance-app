@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://finance-app-pied-mu-77.vercel.app"
+}));
 app.use(express.json());
 
 const MONGO_URI = 'mongodb+srv://admin:Archana12345@cluster0.lqibxku.mongodb.net/myFinanceApp?retryWrites=true&w=majority';

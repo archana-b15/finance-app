@@ -10,7 +10,7 @@ export default function App() {
   const [history, setHistory] = useState([]);
 
   // 🔴 PASTE YOUR RENDER LINK HERE 🔴
-  const API_URL = "https://finance-backend-xxxx.onrender.com"; 
+  const API_URL = "https://finance-backend-0a9x.onrender.com";
 
   const fetchHistory = async (id) => {
     try {
